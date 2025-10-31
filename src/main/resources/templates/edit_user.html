@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit User</title>
+</head>
+<body>
+<h2>Edit User</h2>
+
+<form th:action="@{/admin/users/edit}" method="post">
+  <!-- скрытое поле с id пользователя -->
+  <input type="hidden" name="id" th:value="${user.id}" />
+
+  <label>First name:</label>
+  <input type="text" name="userFirstName" th:value="${user.userFirstName}" required /><br><br>
+
+  <label>Family name:</label>
+  <input type="text" name="userFamilyName" th:value="${user.userFamilyName}" required /><br><br>
+
+  <button type="submit">Save</button>
+</form>
+
+<a th:href="@{/admin/users}">
+  <button>Back to Users List</button>
+</a>
+
+</body>
+</html>

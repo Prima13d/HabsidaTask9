@@ -55,4 +55,23 @@ public class UserDaoHibernateImpl implements UserDao {
         }
     }
 
+    @Override
+    public User findByUsername(String username) {
+        return entityManager.createQuery("FROM User u WHERE u.username = :username", User.class)
+                .setParameter("username", username)
+                .getResultStream()
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        Long count = entityManager.createQuery(
+                        "SELECT COUNT(u) FROM User u WHERE u.username = :username", Long.class)
+                .setParameter("username", username)
+                .getSingleResult();
+        return count > 0;
+    }
+
+
 }

@@ -18,4 +18,9 @@ public interface UserDao {
 
     void updateUser(long id, String firstName, String familyName);
 
+    User findByUsername(String username);
+
+    boolean existsByUsername(String username);
+
+
 }

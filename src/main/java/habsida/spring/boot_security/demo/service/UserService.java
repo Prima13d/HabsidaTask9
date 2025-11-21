@@ -22,6 +22,7 @@ public interface UserService {
 
     void updateUser(long id, String firstName, String familyName);
 
+    boolean existsByUsername(String username);
 
 
 }

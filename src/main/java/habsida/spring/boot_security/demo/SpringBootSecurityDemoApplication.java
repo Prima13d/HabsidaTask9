@@ -2,6 +2,7 @@ package habsida.spring.boot_security.demo;
 
 import habsida.spring.boot_security.demo.model.Role;
 import habsida.spring.boot_security.demo.repository.RoleRepository;
+import habsida.spring.boot_security.demo.repository.UserRepository;
 import habsida.spring.boot_security.demo.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -19,7 +20,7 @@ public class SpringBootSecurityDemoApplication {
 	}
 
 	@Bean
-	CommandLineRunner run(UserService userService, RoleRepository roleRepository) {
+	CommandLineRunner run(UserService userService, RoleRepository roleRepository, UserRepository userRepository) {
 		return args -> {
 			List<Role> adminRoles = roleRepository.findAllByName("ADMIN");
 			Role adminRole;
@@ -27,15 +28,16 @@ public class SpringBootSecurityDemoApplication {
 				adminRole = new Role("ADMIN");
 				roleRepository.save(adminRole);
 			} else {
-				// берем первый элемент, если несколько дублей
 				adminRole = adminRoles.get(0);
 			}
 
-
-			userService.saveUser("Alexey", "Kim",
-					"prima", "12345", adminRole);
+			if (!userRepository.existsByUsername("prima")) {
+				userService.saveUser("Alexey", "Kim",
+						"prima", "12345", adminRole);
+			}
 		};
 	}
+
 
 
 

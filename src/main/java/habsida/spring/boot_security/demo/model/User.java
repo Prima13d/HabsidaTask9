@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +20,7 @@ public class User implements UserDetails {
     @Column(name = "userFamilyName")
     private String userFamilyName;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
     private String username;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -53,6 +53,10 @@ public class User implements UserDetails {
         this.username = username;
         this.password = password;
         this.roles.add(role);
+        this.accountNonExpired = true;
+        this.accountNonLocked = true;
+        this.credentialsNonExpired = true;
+        this.enabled = true;
     }
     protected User(){}
 

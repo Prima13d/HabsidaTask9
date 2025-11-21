@@ -3,6 +3,7 @@ package habsida.spring.boot_security.demo.service;
 
 import habsida.spring.boot_security.demo.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,9 +29,19 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void saveUser(String userFirstName, String userFamilyName,
                          String username, String userPassword, Role role) {
+
+        if (userDao.existsByUsername(username)) {
+            throw new IllegalArgumentException("User with username '" + username + "' already exists");
+        }
+
         String encodedPassword = passwordEncoder.encode(userPassword);
         User user = new User(userFirstName, userFamilyName, username, encodedPassword, role);
-        userDao.saveUser(user);
+        try {
+            userDao.saveUser(user);
+        } catch (DataIntegrityViolationException e) {
+            throw new IllegalArgumentException("Username already exists", e);
+        }
+
     }
 
 
@@ -59,4 +70,10 @@ public class UserServiceImpl implements UserService {
     public void updateUser(long id, String firstName, String familyName) {
         userDao.updateUser(id, firstName, familyName);
     }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        return userDao.existsByUsername(username);
+    }
+
 }

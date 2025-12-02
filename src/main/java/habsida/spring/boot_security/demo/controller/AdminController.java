@@ -36,7 +36,7 @@ public class AdminController {
                           @RequestParam("username") String username,
                           @RequestParam("password") String password,
                           @RequestParam("role") String role) {
-        userService.saveUser(userFirstName, userFamilyName, username, password, new Role(role));
+        userService.saveUser(userFirstName, userFamilyName, username, password, role);
         return "redirect:/admin/users";
     }
 

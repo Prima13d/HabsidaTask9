@@ -1,18 +1,30 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-  <meta charset="UTF-8">
-  <title></title>
+    <meta charset="UTF-8">
+    <title>Messages</title>
 </head>
 <body>
 <div>
-  <th:block th:each="msg : ${messages}">
-    <h1 th:text="${msg}"></h1>
-  </th:block>
-  <a href="http://localhost:8080/admin/users">
-    <button>Show Users</button>
-  </a>
+    <th:block th:each="msg : ${messages}">
+        <h1 th:text="${msg}"></h1>
+    </th:block>
+
+    <!-- Кнопка для админа -->
+    <sec:authorize access="hasRole('ROLE_ADMIN')">
+        <a th:href="@{/admin/users}">
+            <button>Show Users (Admin)</button>
+        </a>
+    </sec:authorize>
+
+    <!-- Кнопка для обычного пользователя -->
+    <sec:authorize access="hasRole('ROLE_USER')">
+        <a th:href="@{/user}">
+            <button>My Profile</button>
+        </a>
+    </sec:authorize>
 </div>
 </body>
 </html>

@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserService {
 
     void saveUser(String userFirstName, String userFamilyName,
-                  String username, String userPassword, Role role);
+                  String username, String userPassword, String roleName);
 
     void removeUserById(long id);
 

@@ -19,26 +19,46 @@ public class SpringBootSecurityDemoApplication {
 		SpringApplication.run(SpringBootSecurityDemoApplication.class, args);
 	}
 
-	@Bean
-	CommandLineRunner run(UserService userService, RoleRepository roleRepository, UserRepository userRepository) {
-		return args -> {
-			List<Role> adminRoles = roleRepository.findAllByName("ADMIN");
-			Role adminRole;
-			if (adminRoles.isEmpty()) {
-				adminRole = new Role("ADMIN");
-				roleRepository.save(adminRole);
-			} else {
-				adminRole = adminRoles.get(0);
-			}
+    @Bean
+    CommandLineRunner run(UserService userService,
+                          RoleRepository roleRepository,
+                          UserRepository userRepository) {
+        return args -> {
 
-			if (!userRepository.existsByUsername("prima")) {
-				userService.saveUser("Alexey", "Kim",
-						"prima", "12345", adminRole);
-			}
-		};
-	}
+            List<Role> adminRoles = roleRepository.findAllByName("ROLE_ADMIN");
+            Role adminRole;
 
+            // если нет — создаём
+            if (adminRoles.isEmpty()) {
+                adminRole = new Role("ROLE_ADMIN");
+                roleRepository.save(adminRole);
+            } else {
+                adminRole = adminRoles.get(0);
+            }
 
+            if (!userRepository.existsByUsername("prima")) {
+                userService.saveUser(
+                        "Alexey",
+                        "Kim",
+                        "prima",
+                        "12345",
+                        "ADMIN"
+                );
+            }
+        };
+    }
+
+    @Bean
+    public CommandLineRunner initRoles(RoleRepository roleRepository) {
+        return args -> {
+            if (!roleRepository.existsByName("USER")) {
+                roleRepository.save(new Role("USER"));
+            }
+            if (!roleRepository.existsByName("ADMIN")) {
+                roleRepository.save(new Role("ADMIN"));
+            }
+        };
+    }
 
 
 }

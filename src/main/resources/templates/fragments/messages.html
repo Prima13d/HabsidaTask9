@@ -1,0 +1,19 @@
+<div class="d-flex justify-content-center gap-3 mt-3">
+    <sec:authorize access="hasRole('ADMIN')">
+        <a th:href="@{/admin/users}" class="btn btn-primary btn-lg">Show Users (Admin)</a>
+    </sec:authorize>
+
+    <sec:authorize access="hasRole('USER')">
+        <a th:href="@{/user}" class="btn btn-success btn-lg">My Profile</a>
+    </sec:authorize>
+
+    <sec:authorize access="isAuthenticated()">
+        <form th:action="@{/logout}" method="post" style="display:inline">
+            <button class="btn btn-danger btn-lg">Logout</button>
+        </form>
+    </sec:authorize>
+
+    <sec:authorize access="isAnonymous()">
+        <a th:href="@{/login}" class="btn btn-primary btn-lg">Login</a>
+    </sec:authorize>
+</div>

@@ -2,12 +2,14 @@ package habsida.spring.boot_security.demo.model;
 
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
@@ -42,8 +44,6 @@ public class User implements UserDetails {
 
     @Column(name = "is_enabled")
     private boolean enabled = true;
-
-
 
 
     public User(String userFirstName, String userFamilyName,
@@ -86,8 +86,11 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
+                .collect(Collectors.toSet());
     }
+
 
     @Override
     public String getUsername() {

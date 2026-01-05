@@ -1,32 +1,37 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit User</title>
-</head>
-<body>
-<div th:replace="fragments/header :: siteHeader"></div>
-<h2>Edit User</h2>
+    <!DOCTYPE html>
+    <html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Edit User</title>
+    </head>
+    <body>
 
-<form th:action="@{/admin/edit}" method="post">
+    <div th:replace="fragments/header :: siteHeader"></div>
 
-    <!-- CSRF token -->
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <h2>Edit User</h2>
 
-    <input type="hidden" name="id" th:value="${user.id}" />
+    <form th:action="@{/admin/users/edit}" method="post">
 
-    <label>First name:</label>
-    <input type="text" name="userFirstName" th:value="${user.userFirstName}" required /><br><br>
+        <input type="hidden"
+               th:name="${_csrf.parameterName}"
+               th:value="${_csrf.token}" />
 
-    <label>Family name:</label>
-    <input type="text" name="userFamilyName" th:value="${user.userFamilyName}" required /><br><br>
+        <input type="hidden" name="id" th:value="${user.id}" />
 
-    <button type="submit">Save</button>
-</form>
+        <label>First name:</label>
+        <input type="text" name="userFirstName"
+               th:value="${user.userFirstName}" required /><br><br>
 
-<a th:href="@{/admin/users}">
-    <button>Back to Users List</button>
-</a>
+        <label>Family name:</label>
+        <input type="text" name="userFamilyName"
+               th:value="${user.userFamilyName}" required /><br><br>
 
-</body>
-</html>
+        <button type="submit">Save</button>
+    </form>
+
+    <a th:href="@{/admin/users}">
+        <button>Back to Users List</button>
+    </a>
+
+    </body>
+    </html>

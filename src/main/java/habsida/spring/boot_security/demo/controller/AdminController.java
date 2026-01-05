@@ -53,13 +53,14 @@ public class AdminController {
         return "edit_user";
     }
 
-    @PostMapping("/admin/edit")
-    public String updateUser(@RequestParam Long id,
+    @PostMapping("/edit")
+    public String updateUser(@RequestParam("id") Long id,
                              @RequestParam String userFirstName,
                              @RequestParam String userFamilyName) {
         userService.updateUser(id, userFirstName, userFamilyName);
         return "redirect:/admin/users";
     }
+
 
 
 }

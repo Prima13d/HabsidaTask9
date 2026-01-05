@@ -25,12 +25,11 @@ public class SpringBootSecurityDemoApplication {
                           UserRepository userRepository) {
         return args -> {
 
-            List<Role> adminRoles = roleRepository.findAllByName("ROLE_ADMIN");
+            List<Role> adminRoles = roleRepository.findAllByName("ADMIN");
             Role adminRole;
 
-            // если нет — создаём
             if (adminRoles.isEmpty()) {
-                adminRole = new Role("ROLE_ADMIN");
+                adminRole = new Role("ADMIN");
                 roleRepository.save(adminRole);
             } else {
                 adminRole = adminRoles.get(0);

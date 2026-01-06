@@ -1,6 +1,5 @@
 package habsida.spring.boot_security.demo.controller;
 
-import habsida.spring.boot_security.demo.model.Role;
 import  org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -10,12 +9,12 @@ import habsida.spring.boot_security.demo.service.UserService;
 
 @Controller
 @RequestMapping("/admin/users")
-public class AdminController {
+public class AdminPageController {
 
     private final UserService userService;
 
     @Autowired
-    public AdminController(UserService userService) {
+    public AdminPageController(UserService userService) {
         this.userService = userService;
     }
 

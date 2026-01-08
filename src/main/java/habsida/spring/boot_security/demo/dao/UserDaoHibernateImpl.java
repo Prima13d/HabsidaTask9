@@ -1,7 +1,6 @@
 package habsida.spring.boot_security.demo.dao;
 
 
-import habsida.spring.boot_security.demo.model.Role;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import habsida.spring.boot_security.demo.model.User;

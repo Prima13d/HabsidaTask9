@@ -17,16 +17,16 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "userFirstName")
+    @Column(name = "user_first_name")
     private String userFirstName;
-    @Column(name = "userFamilyName")
+    @Column(name = "user_family_name")
     private String userFamilyName;
 
     @Column(nullable = false, unique = true, updatable = false)
     private String username;
 
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),

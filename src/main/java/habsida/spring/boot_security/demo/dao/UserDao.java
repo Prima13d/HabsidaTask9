@@ -1,7 +1,6 @@
 package habsida.spring.boot_security.demo.dao;
 
 import habsida.spring.boot_security.demo.model.User;
-
 import java.util.List;
 
 public interface UserDao {
@@ -16,7 +15,7 @@ public interface UserDao {
 
     User getUserById(long id);
 
-    void updateUser(long id, String firstName, String familyName);
+    void updateUser(User user);
 
     User findByUsername(String username);
 

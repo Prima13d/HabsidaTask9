@@ -1,15 +1,17 @@
 package habsida.spring.boot_security.demo.controller;
 
+import habsida.spring.boot_security.demo.dto.UserCreateDto;
+import habsida.spring.boot_security.demo.dto.UserUpdateDto;
 import habsida.spring.boot_security.demo.model.User;
 import habsida.spring.boot_security.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin/users")
 public class AdminRestController {
+
     private final UserService userService;
 
     @Autowired
@@ -23,29 +25,31 @@ public class AdminRestController {
     }
 
     @PostMapping
-    public User addUser(@RequestBody User user) {
+    public void addUser(@RequestBody UserCreateDto dto) {
         userService.saveUser(
-                user.getUserFirstName(),
-                user.getUserFamilyName(),
-                user.getUsername(),
-                user.getPassword(),
-                user.getRoles().iterator().next().getName()
+                dto.getUserFirstName(),
+                dto.getUserFamilyName(),
+                dto.getUsername(),
+                dto.getPassword(),
+                dto.getRole()
         );
-        return user;
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable("id") Long id) {
-        userService.removeUserById(id);
     }
 
     @PutMapping("/{id}")
-    public void updateUser(@PathVariable("id") Long id, @RequestBody User user) {
-        userService.updateUser(id,
-                user.getUserFirstName(),
-                user.getUserFamilyName()
+    public void updateUser(@PathVariable Long id,
+                           @RequestBody UserUpdateDto dto) {
+
+        userService.updateUser(
+                id,
+                dto.getUserFirstName(),
+                dto.getUserFamilyName(),
+                dto.getPassword(),
+                dto.getRole()
         );
     }
 
-
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        userService.removeUserById(id);
+    }
 }

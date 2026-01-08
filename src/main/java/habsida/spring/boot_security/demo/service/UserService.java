@@ -1,16 +1,16 @@
 package habsida.spring.boot_security.demo.service;
 
-import habsida.spring.boot_security.demo.model.Role;
-import org.springframework.stereotype.Service;
+
 import habsida.spring.boot_security.demo.model.User;
 import java.util.List;
 
-
-@Service
 public interface UserService {
 
-    void saveUser(String userFirstName, String userFamilyName,
-                  String username, String userPassword, String roleName);
+    void saveUser(String userFirstName,
+                  String userFamilyName,
+                  String username,
+                  String userPassword,
+                  String roleName);
 
     void removeUserById(long id);
 
@@ -20,9 +20,11 @@ public interface UserService {
 
     User getUserById(long id);
 
-    void updateUser(long id, String firstName, String familyName);
+    void updateUser(long id,
+                    String firstName,
+                    String familyName,
+                    String password,
+                    String roleName);
 
     boolean existsByUsername(String username);
-
-
 }

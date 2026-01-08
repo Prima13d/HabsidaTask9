@@ -1,6 +1,7 @@
 package habsida.spring.boot_security.demo.dao;
 
 
+import habsida.spring.boot_security.demo.model.Role;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import habsida.spring.boot_security.demo.model.User;
@@ -46,13 +47,9 @@ public class UserDaoHibernateImpl implements UserDao {
     }
 
     @Override
-    public void updateUser(long id, String firstName, String familyName) {
-        User user = entityManager.find(User.class, id);
-        if (user != null) {
-            user.setUserFirstName(firstName);
-            user.setUserFamilyName(familyName);
-            entityManager.merge(user);
-        }
+    @Transactional
+    public void updateUser(User user) {
+        entityManager.merge(user);
     }
 
     @Override

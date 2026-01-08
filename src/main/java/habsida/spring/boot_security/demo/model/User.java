@@ -22,8 +22,9 @@ public class User implements UserDetails {
     @Column(name = "userFamilyName")
     private String userFamilyName;
 
-    @Column(name = "username", unique = true)
+    @Column(nullable = false, unique = true, updatable = false)
     private String username;
+
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -60,6 +61,20 @@ public class User implements UserDetails {
     }
     protected User(){}
 
+    public User(String userFirstName, String userFamilyName,
+               String username, String password) {
+        this.userFirstName = userFirstName;
+        this.userFamilyName = userFamilyName;
+        this.username = username;
+        this.password = password;
+        this.accountNonExpired = true;
+        this.accountNonLocked = true;
+        this.credentialsNonExpired = true;
+        this.enabled = true;
+
+    }
+
+
     public long getId() {
         return id;
     }
@@ -95,9 +110,6 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return username;
-    }
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     @Override

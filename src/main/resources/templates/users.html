@@ -123,6 +123,22 @@
                         <input class="form-control" id="edit-family">
                     </div>
 
+                    <div class="mb-2">
+                        <label>Password</label>
+                        <input type="password" class="form-control" id="edit-password">
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Role</label><br>
+
+                        <input type="radio" name="edit-role" value="ADMIN" id="role-admin">
+                        <label for="role-admin">ADMIN</label><br>
+
+                        <input type="radio" name="edit-role" value="USER" id="role-user" checked>
+                        <label for="role-user">USER</label>
+                    </div>
+
+
                 </div>
 
                 <div class="modal-footer">
@@ -192,10 +208,14 @@
 </script>
 
 <script>
-    function openEditModal(id, first, family) {
+    function openEditModal(id, first, family, role = 'USER') {
         document.getElementById('edit-id').value = id;
         document.getElementById('edit-first').value = first;
         document.getElementById('edit-family').value = family;
+        document.getElementById('edit-password').value = '';
+
+        document.querySelectorAll('input[name="edit-role"]')
+            .forEach(r => r.checked = (r.value === role));
 
         new bootstrap.Modal(
             document.getElementById('editUserModal')
@@ -210,6 +230,10 @@
 
             const id = document.getElementById('edit-id').value;
 
+            const role = document.querySelector(
+                'input[name="edit-role"]:checked'
+            ).value;
+
             fetch(`/api/admin/users/${id}`, {
                 method: 'PUT',
                 headers: {
@@ -218,11 +242,13 @@
                 },
                 body: JSON.stringify({
                     userFirstName: document.getElementById('edit-first').value,
-                    userFamilyName: document.getElementById('edit-family').value
+                    userFamilyName: document.getElementById('edit-family').value,
+                    password: document.getElementById('edit-password').value,
+                    role: role
                 })
             }).then(() => {
                 bootstrap.Modal
-                    .getInstance(editUserModal)
+                    .getInstance(document.getElementById('editUserModal'))
                     .hide();
                 loadUsers();
             });
@@ -247,7 +273,7 @@
                     userFamilyName: f.userFamilyName.value,
                     username: f.username.value,
                     password: f.password.value,
-                    roles: [{name: f.role.value}]
+                    role: f.role.value
                 })
             }).then(() => {
                 f.reset();
